@@ -1,4 +1,4 @@
-package fr.toutatice.cartoun.portail.creationCompte.bean;
+package org.osivia.services.cgu.bean;
 
 public class FormAdmin {
 

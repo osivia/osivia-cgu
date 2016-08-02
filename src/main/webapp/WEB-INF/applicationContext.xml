@@ -41,18 +41,15 @@
 		</property>
 	</bean>
 
-	<bean id="creationCompteController"
-		class="fr.toutatice.cartoun.portail.creationCompte.CreationCompteController">		
+	<bean id="viewController"
+		class="org.osivia.services.cgu.ViewController">		
 	</bean>
 	
 	<bean id="adminController" 
-		class="fr.toutatice.cartoun.portail.creationCompte.AdminController">
+		class="org.osivia.services.cgu.AdminController">
 	</bean>
 	
-	<bean id="feeder"
-		class="fr.toutatice.cartoun.portail.majcompte.SupportFeeder">
-	</bean>
-	
+
 	<bean id="defaultExceptionHandlerTemplate"
 	class="org.springframework.web.portlet.handler.SimpleMappingExceptionResolver" 
 	abstract="true">
@@ -74,7 +71,7 @@
 	 <bean id="portletModeHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
                 <property name="portletModeMap">
                         <map>								
-                                <entry key="view"><ref bean="creationCompteController"/></entry>
+                                <entry key="view"><ref bean="viewController"/></entry>
                                 <entry key="admin"><ref bean="adminController"/></entry>
                         </map>
                 </property>
