@@ -2,14 +2,18 @@ package org.osivia.services.cgu.bean;
 
 public class FormAdmin {
 
-	private String spaceId = "";
 
-	public String getSpaceId() {
-		return spaceId;
-	}
+	private String cguPath = "";
 
-	public void setSpaceId(final String spaceId) {
-		this.spaceId = spaceId;
-	}
+    
+    public String getCguPath() {
+        return cguPath;
+    }
+
+    
+    public void setCguPath(String cguPath) {
+        this.cguPath = cguPath;
+    }
+
 
 }

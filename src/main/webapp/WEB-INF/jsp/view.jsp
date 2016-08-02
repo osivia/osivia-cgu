@@ -4,7 +4,6 @@
 <portlet:defineObjects />
 
 
-</portlet:renderURL>
 <portlet:renderURL var="actionValidation">
 	<portlet:param name="action" value="validationCgus" />
 </portlet:renderURL>

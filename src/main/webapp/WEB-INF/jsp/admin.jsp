@@ -17,9 +17,9 @@
 		
 	
 		<div class="ligne">
-			Space Id des Dossiers disciplinaires :
-			<form:input path="spaceId" name="spaceId"/>
-			<font style="color: #C11B17;"><form:errors path="spaceId"/></font>
+			Chemin de la note contenant les CGU
+			<form:input path="cguPath" name="cguPath"/>
+			<font style="color: #C11B17;"><form:errors path="cguPath"/></font>
 		</div>	
 		
 		

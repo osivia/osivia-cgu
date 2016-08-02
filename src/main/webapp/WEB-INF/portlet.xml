@@ -6,16 +6,15 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http:
 version="1.0">
 
 	<portlet>
-		<description>Portlet Cartoun Création Compte</description>
-		<portlet-name>toutatice-cartoun-creationcompte-portailPortlet</portlet-name>
-        <display-name>Cartoun - Création Compte</display-name>
+		<description>Portlet OSIVIA Affichage CGU</description>
+		<portlet-name>osivia-services-cgu-portailPortlet</portlet-name>
+        <display-name>OSIVIA - Affichage CGU</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 
 		<!--  Fichier de configuration Spring de l'application --> 
 		<init-param>
 			<name>contextConfigLocation</name>
 			<value>
-			classpath:annuaire-beans.xml
 			/WEB-INF/applicationContext.xml</value>
 		</init-param>
 		
@@ -26,35 +25,11 @@ version="1.0">
 		</supports>
 		
 		<portlet-info>
-			<title>Cartoun - Création Compte</title>
+			<title>OSIVIA - CGU</title>
 		</portlet-info>
 	</portlet>
 	
 	
-	
-	
-	<portlet>
-		<portlet-name>toutatice-cartoun-maj-comptePortlet</portlet-name>
-        <portlet-class>fr.toutatice.cartoun.portail.majcompte.SupportFeederPortlet</portlet-class>
-
-		<!--  Fichier de configuration Spring de l'application --> 
-		<init-param>
-			<name>contextConfigLocation</name>
-			<value>
-			classpath:annuaire-beans.xml
-			/WEB-INF/applicationContext.xml</value>
-		</init-param>
-		
-		<supports>
-			<mime-type>text/html</mime-type>
-			<portlet-mode>View</portlet-mode>
-			<portlet-mode>Admin</portlet-mode>
-		</supports>
-		
-		<portlet-info>
-			<title>Cartoun - Création Compte</title>
-		</portlet-info>
-	</portlet>
 	
 
 	

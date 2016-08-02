@@ -6,9 +6,9 @@
 	<deployment>
 		<if-exists>overwrite</if-exists>
 		<instance>
-			<display-name xml:lang="fr">Cartoun - Création Compte</display-name>
-			<instance-id>toutatice-cartoun-creationcompte-portailPortletInstance</instance-id>
-			<portlet-ref>toutatice-cartoun-creationcompte-portailPortlet</portlet-ref>
+			<display-name xml:lang="fr">OSIVIA - Affichage CGU</display-name>
+			<instance-id>osivia-services-cgu-portailPortletInstance</instance-id>
+			<portlet-ref>osivia-services-cgu-portailPortlet</portlet-ref>
 			<security-constraint>
             	<policy-permission>
                		<action-name>admin</action-name>

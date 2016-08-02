@@ -25,8 +25,8 @@ public class AdminController {
 		final PortalWindow window = WindowFactory.getWindow(request);
 		final FormAdmin formulaire = new FormAdmin();
 
-		if (window.getProperty("toutatice.cartounN.creationCompte.spaceId") != null) {
-			formulaire.setSpaceId(window.getProperty("toutatice.cartounN.creationCompte.spaceId"));
+		if (window.getProperty("osivia.services.cgu.path") != null) {
+			formulaire.setCguPath(window.getProperty("osivia.services.cgu.path"));
 		}
 
 		model.addAttribute("formulaire", formulaire);
@@ -39,7 +39,7 @@ public class AdminController {
 			final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
 
 		final PortalWindow window = WindowFactory.getWindow(request);
-		window.setProperty("toutatice.cartounN.creationCompte.spaceId", formulaire.getSpaceId());
+		window.setProperty("osivia.services.cgu.path", formulaire.getCguPath());
 		response.setPortletMode(PortletMode.VIEW);
 		response.setRenderParameter("action", "");
 	}

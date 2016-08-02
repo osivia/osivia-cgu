@@ -3,13 +3,13 @@
 
 
 
-	<groupId>toutatice-services.cartoun</groupId>
-	<artifactId>toutatice-cartoun-creationcompte-portail</artifactId>
+	<groupId>org.osivia.services.cgu</groupId>
+	<artifactId>osivia-services-cgu-portail</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.9-SNAPSHOT</version>
-	<name>Cartoun Création Compte Portlet</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>OSIVIA - CGU</name>
 
-  <properties>
+	<properties>
         <toutatice.version>4.4.0-SNAPSHOT</toutatice.version>
         <directory.version>4.4.0-SNAPSHOT</directory.version>
     </properties>

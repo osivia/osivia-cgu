@@ -1,10 +1,16 @@
 package org.osivia.services.cgu;
 
+import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletContext;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.windows.PortalWindow;
 import org.osivia.portal.api.windows.WindowFactory;
 import org.osivia.services.cgu.bean.FormAdmin;
@@ -14,42 +20,65 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.context.PortletConfigAware;
+import org.springframework.web.portlet.context.PortletContextAware;
+
+import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 
 @Controller
 @RequestMapping("VIEW")
+public class ViewController extends CMSPortlet implements PortletContextAware, PortletConfigAware {
+    
 
-public class ViewController {
+    private PortletContext portletContext;
+    private PortletConfig portletConfig;
+    
+    @PostConstruct
+    public void initNuxeoService() throws Exception {
+        super.init();
+        if ((this.portletContext != null) && (this.portletContext.getAttribute("nuxeoService") == null)) {
 
-	@RequestMapping
-	public String showAdmin(final ModelMap model, final RenderRequest request, final PortletSession session) {
-		final PortalWindow window = WindowFactory.getWindow(request);
-		final FormAdmin formulaire = new FormAdmin();
+            this.init(this.portletConfig);
+        }
 
-		if (window.getProperty("toutatice.cartounN.creationCompte.spaceId") != null) {
-			formulaire.setSpaceId(window.getProperty("toutatice.cartounN.creationCompte.spaceId"));
-		}
+    }
 
-		model.addAttribute("formulaire", formulaire);
+    @RequestMapping
+    public String showView(final ModelMap model, final RenderRequest request, final RenderResponse response, final PortletSession session) {
 
-		return "cgus";
-	}
+        final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
+        final PortalWindow window = WindowFactory.getWindow(request);
 
-	@ActionMapping(params = "action=setAdminProperty")
-	public void setAdminProperty(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request, final ActionResponse response,
-			final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
+        String cguPath = window.getProperty("osivia.services.cgu.path");
 
-		final PortalWindow window = WindowFactory.getWindow(request);
-		window.setProperty("toutatice.cartounN.creationCompte.spaceId", formulaire.getSpaceId());
-		response.setPortletMode(PortletMode.VIEW);
-		response.setRenderParameter("action", "");
-	}
+        if (cguPath != null) {
+            final Document document = nuxeoController.fetchDocument(cguPath);
+            nuxeoController.setCurrentDoc(document);
+            final String note = nuxeoController.transformHTMLContent((String) document.getProperties().get("note:note"));
+            request.setAttribute("cgus", note);
+        }
+        return "view";
+    }
 
-	@ActionMapping(params = "action=annuler")
-	public void annuler(final ActionRequest request, final ActionResponse response, final PortletSession session, final ModelMap modelMap) throws Exception {
 
-		response.setPortletMode(PortletMode.VIEW);
-		response.setRenderParameter("action", "");
+    @ActionMapping(params = "action=setAdminProperty")
+    public void setAdminProperty(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
+            final ActionResponse response, final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
+    }
 
-	}
 
+
+    @Override
+    public void setPortletContext(PortletContext ctx) {
+        this.portletContext = ctx;
+
+    }
+
+    @Override
+    public void setPortletConfig(PortletConfig portletConfig) {
+        this.portletConfig = portletConfig;
+
+    }
+    
 }

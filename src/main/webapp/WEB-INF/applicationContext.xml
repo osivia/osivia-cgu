@@ -30,51 +30,8 @@
 
 	<bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 
-	<context:component-scan base-package="fr.toutatice.cartoun.portail.creationCompte" />
+	<context:component-scan base-package="org.osivia.services.cgu" />
 
-	<bean id="placeholderConfigMetier"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>file:///${PORTAL_PROP_FILE}</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="viewController"
-		class="org.osivia.services.cgu.ViewController">		
-	</bean>
-	
-	<bean id="adminController" 
-		class="org.osivia.services.cgu.AdminController">
-	</bean>
 	
 
-	<bean id="defaultExceptionHandlerTemplate"
-	class="org.springframework.web.portlet.handler.SimpleMappingExceptionResolver" 
-	abstract="true">
-		<property name="defaultErrorView" value="erreur" />
-		<property name="exceptionMappings">
-			<props>
-				<prop key= "com.ibm.developerworks.contact.exception.DuplicateContactIdException">
-					erreur
-				</prop>
-				<prop key="java.lang.NullPointerException">
-					erreur
-				</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="defaultExceptionHandler" parent="defaultExceptionHandlerTemplate" />
-	
-	 <bean id="portletModeHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
-                <property name="portletModeMap">
-                        <map>								
-                                <entry key="view"><ref bean="viewController"/></entry>
-                                <entry key="admin"><ref bean="adminController"/></entry>
-                        </map>
-                </property>
-      </bean>
-	
 </beans>
