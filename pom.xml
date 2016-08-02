@@ -1,0 +1,119 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+
+	<groupId>toutatice-services.cartoun</groupId>
+	<artifactId>toutatice-cartoun-creationcompte-portail</artifactId>
+	<packaging>war</packaging>
+	<version>1.0.9-SNAPSHOT</version>
+	<name>Cartoun Création Compte Portlet</name>
+
+  <properties>
+        <toutatice.version>4.4.0-SNAPSHOT</toutatice.version>
+        <directory.version>4.4.0-SNAPSHOT</directory.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Toutatice -->
+            <dependency>
+                <groupId>toutatice-portail.cms</groupId>
+                <artifactId>toutatice-portail-cms-nuxeo-dependencies</artifactId>
+                <version>${toutatice.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>toutatice-portail.cms</groupId>
+                <artifactId>toutatice-portail-cms-nuxeo-dependencies-test</artifactId>
+                <version>${toutatice.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <dependencies>
+
+        <!-- Toutatice -->
+        <dependency>
+            <groupId>toutatice-portail.cms</groupId>
+            <artifactId>toutatice-portail-cms-nuxeo-dependencies</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<tagBase>http://www.osivia.org/repos/osivia-services/cgu/tags</tagBase>
+					<releaseProfiles>unpack,pack</releaseProfiles>
+					<preparationGoals>clean install</preparationGoals>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+   <scm>
+        <developerConnection>scm:svn:http://www.osivia.org/repos/osivia-services/cgu/trunk</developerConnection>
+    </scm>
+
+
+    <distributionManagement>
+        <repository>
+            <id>osivia-releases</id>
+            <url>http://www.osivia.org/nexus/content/repositories/osivia-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>osivia-snapshots</id>
+            <url>http://www.osivia.org/nexus/content/repositories/osivia-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+    <organization>
+        <name>OSIVIA</name>
+        <url>http://www.osivia.org/</url>
+    </organization>
+
+
+</project>

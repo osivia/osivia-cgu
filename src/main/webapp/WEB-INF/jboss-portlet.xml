@@ -1,0 +1,35 @@
+<!DOCTYPE portlet-app PUBLIC
+   "-//JBoss Portal//DTD JBoss Portlet 2.6//EN"
+   "http://www.jboss.org/portal/dtd/jboss-portlet_2_6.dtd">
+
+
+
+<portlet-app>
+	<portlet>
+		<portlet-name>toutatice-cartoun-creationcompte-portailPortlet</portlet-name>
+
+		<transaction>
+			<trans-attribute>Required</trans-attribute>
+		</transaction>
+
+	</portlet>
+	
+	
+	<portlet>
+        <portlet-name>toutatice-cartoun-maj-comptePortlet</portlet-name>
+      
+        <transaction>
+            <trans-attribute>Required</trans-attribute>
+        </transaction>
+    </portlet>
+    
+    <service>
+        <service-name>UserDatasModulesRepository</service-name>
+        <service-class>org.osivia.portal.api.login.IUserDatasModuleRepository</service-class>
+        <service-ref>osivia:service=Interceptor,type=Server,name=ServerLogin</service-ref>
+    </service>
+
+
+</portlet-app>
+
+	
