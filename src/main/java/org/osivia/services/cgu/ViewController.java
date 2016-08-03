@@ -29,11 +29,11 @@ import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 @Controller
 @RequestMapping("VIEW")
 public class ViewController extends CMSPortlet implements PortletContextAware, PortletConfigAware {
-    
+
 
     private PortletContext portletContext;
     private PortletConfig portletConfig;
-    
+
     @PostConstruct
     public void initNuxeoService() throws Exception {
         super.init();
@@ -50,6 +50,7 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
         final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
         final PortalWindow window = WindowFactory.getWindow(request);
 
+
         String cguPath = window.getProperty("osivia.services.cgu.path");
 
         if (cguPath != null) {
@@ -58,15 +59,23 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
             final String note = nuxeoController.transformHTMLContent((String) document.getProperties().get("note:note"));
             request.setAttribute("cgus", note);
         }
+
+
         return "view";
     }
 
 
-    @ActionMapping(params = "action=setAdminProperty")
+    @ActionMapping(params = "action=validateCgu")
     public void setAdminProperty(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
             final ActionResponse response, final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
-    }
 
+        final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
+        final PortalWindow window = WindowFactory.getWindow(request);
+
+        String cguLevel = window.getProperty("osivia.services.cgu.level");
+        int level = Integer.parseInt(cguLevel);
+        nuxeoController.executeNuxeoCommand(new UpdateProfilCommand(request.getUserPrincipal().getName(), level));
+    }
 
 
     @Override
@@ -80,5 +89,5 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
         this.portletConfig = portletConfig;
 
     }
-    
+
 }

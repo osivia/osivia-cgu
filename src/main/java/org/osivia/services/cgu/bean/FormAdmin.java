@@ -4,8 +4,21 @@ public class FormAdmin {
 
 
 	private String cguPath = "";
+    private String cguLevel = "";
 
     
+    
+    public String getCguLevel() {
+        return cguLevel;
+    }
+
+
+    
+    public void setCguLevel(String cguLevel) {
+        this.cguLevel = cguLevel;
+    }
+
+
     public String getCguPath() {
         return cguPath;
     }

@@ -22,6 +22,11 @@
 			<font style="color: #C11B17;"><form:errors path="cguPath"/></font>
 		</div>	
 		
+		<div class="ligne">
+			Niveau de CGU ( > 0)
+			<form:input path="cguLevel" name="cguLevel"/>
+			<font style="color: #C11B17;"><form:errors path="cguLevel"/></font>
+		</div>	
 		
 		
 	

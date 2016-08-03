@@ -5,6 +5,8 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
+import javax.portlet.WindowState;
+
 import org.osivia.portal.api.windows.PortalWindow;
 import org.osivia.portal.api.windows.WindowFactory;
 import org.osivia.services.cgu.bean.FormAdmin;
@@ -17,39 +19,49 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
 @Controller
 @RequestMapping("ADMIN")
-
 public class AdminController {
 
-	@RequestMapping
-	public String showAdmin(final ModelMap model, final RenderRequest request, final PortletSession session) {
-		final PortalWindow window = WindowFactory.getWindow(request);
-		final FormAdmin formulaire = new FormAdmin();
+    @RequestMapping
+    public String showAdmin(final ModelMap model, final RenderRequest request, final PortletSession session) {
+        final PortalWindow window = WindowFactory.getWindow(request);
+        final FormAdmin formulaire = new FormAdmin();
 
-		if (window.getProperty("osivia.services.cgu.path") != null) {
-			formulaire.setCguPath(window.getProperty("osivia.services.cgu.path"));
-		}
+        if (window.getProperty("osivia.services.cgu.path") != null) {
+            formulaire.setCguPath(window.getProperty("osivia.services.cgu.path"));
+        }
 
-		model.addAttribute("formulaire", formulaire);
+        if (window.getProperty("osivia.services.cgu.level") != null) {
+            formulaire.setCguLevel(window.getProperty("osivia.services.cgu.level"));
+        }
 
-		return "admin";
-	}
 
-	@ActionMapping(params = "action=setAdminProperty")
-	public void setAdminProperty(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request, final ActionResponse response,
-			final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
+        model.addAttribute("formulaire", formulaire);
 
-		final PortalWindow window = WindowFactory.getWindow(request);
-		window.setProperty("osivia.services.cgu.path", formulaire.getCguPath());
-		response.setPortletMode(PortletMode.VIEW);
-		response.setRenderParameter("action", "");
-	}
+        return "admin";
+    }
 
-	@ActionMapping(params = "action=annuler")
-	public void annuler(final ActionRequest request, final ActionResponse response, final PortletSession session, final ModelMap modelMap) throws Exception {
+    @ActionMapping(params = "action=setAdminProperty")
+    public void setAdminProperty(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
+            final ActionResponse response, final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
 
-		response.setPortletMode(PortletMode.VIEW);
-		response.setRenderParameter("action", "");
+        final PortalWindow window = WindowFactory.getWindow(request);
+        window.setProperty("osivia.services.cgu.path", formulaire.getCguPath());
 
-	}
+        window.setProperty("osivia.services.cgu.level", formulaire.getCguLevel());
+
+
+        response.setPortletMode(PortletMode.VIEW);
+        response.setWindowState(WindowState.NORMAL);
+        response.setRenderParameter("action", "");
+    }
+
+    @ActionMapping(params = "action=annuler")
+    public void annuler(final ActionRequest request, final ActionResponse response, final PortletSession session, final ModelMap modelMap) throws Exception {
+
+        response.setPortletMode(PortletMode.VIEW);
+        response.setWindowState(WindowState.NORMAL);        
+        response.setRenderParameter("action", "");
+
+    }
 
 }
