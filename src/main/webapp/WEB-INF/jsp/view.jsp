@@ -9,10 +9,13 @@
 <portlet:defineObjects />
 
 
-<portlet:actionURL var="validateCgu" portletMode="admin">
+<portlet:actionURL var="validateCgu" portletMode="view">
 	<portlet:param name="action" value="validateCgu" />
 </portlet:actionURL>
 
+<portlet:actionURL var="rejectCgu" portletMode="view">
+	<portlet:param name="action" value="rejectCgu" />
+</portlet:actionURL>
 
 <div>
 
@@ -38,12 +41,20 @@
 
 					<div class="row">
 
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<a class="btn btn-primary" href="${validateCgu}"> <i
 								class="glyphicons halflings ok"></i> <span>J'accepte les
 									Conditions Générales d'Utilisation</span>
 							</a>
 						</div>
+<%--
+						<div class="col-md-6">
+							<a class="btn" href="${rejectCgu}"> <i
+								class="glyphicons halflings ok"></i> <span>Je refuse les
+									Conditions Générales d'Utilisation</span>
+							</a>
+						</div>
+--%>
 					</div>
 
 				</div>

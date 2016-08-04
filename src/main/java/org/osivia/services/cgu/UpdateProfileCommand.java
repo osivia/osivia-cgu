@@ -13,15 +13,15 @@ import org.nuxeo.ecm.automation.client.model.Document;
 
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 
-public class UpdateProfilCommand implements INuxeoCommand {
+public class UpdateProfileCommand implements INuxeoCommand {
 
-    protected static final Log logger = LogFactory.getLog(UpdateProfilCommand.class);
+    protected static final Log logger = LogFactory.getLog(UpdateProfileCommand.class);
 
     private final String userName;
     private final int levelAgreement;
 
 
-    public UpdateProfilCommand(String userName, int levelAgreement) {
+    public UpdateProfileCommand(String userName, int levelAgreement) {
         super();
         this.userName = userName;
         this.levelAgreement = levelAgreement;

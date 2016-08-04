@@ -9,8 +9,14 @@ import javax.portlet.PortletMode;
 import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 import org.nuxeo.ecm.automation.client.model.Document;
+import org.osivia.portal.api.Constants;
+import org.osivia.portal.api.context.PortalControllerContext;
+import org.osivia.portal.api.locator.Locator;
+import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.api.windows.PortalWindow;
 import org.osivia.portal.api.windows.WindowFactory;
 import org.osivia.services.cgu.bean.FormAdmin;
@@ -34,6 +40,15 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
     private PortletContext portletContext;
     private PortletConfig portletConfig;
 
+
+    /** Portal URL factory. */
+    private IPortalUrlFactory portalUrlFactory;
+
+
+
+   
+    
+    
     @PostConstruct
     public void initNuxeoService() throws Exception {
         super.init();
@@ -41,7 +56,9 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
 
             this.init(this.portletConfig);
         }
-
+        
+        // Portal URL factory
+        this.portalUrlFactory = Locator.findMBean(IPortalUrlFactory.class, IPortalUrlFactory.MBEAN_NAME);
     }
 
     @RequestMapping
@@ -66,15 +83,41 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
 
 
     @ActionMapping(params = "action=validateCgu")
-    public void setAdminProperty(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
+    public void validateCgu(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
             final ActionResponse response, final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
 
         final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
         final PortalWindow window = WindowFactory.getWindow(request);
 
+        int level = 1;
         String cguLevel = window.getProperty("osivia.services.cgu.level");
-        int level = Integer.parseInt(cguLevel);
-        nuxeoController.executeNuxeoCommand(new UpdateProfilCommand(request.getUserPrincipal().getName(), level));
+        try {
+            level = Integer.parseInt(cguLevel);
+        } catch(Exception e)    {
+        }
+        nuxeoController.executeNuxeoCommand(new UpdateProfileCommand(request.getUserPrincipal().getName(), level));
+        
+        
+         // Level Marked as checked
+        HttpServletRequest servletRequest = (HttpServletRequest) request.getAttribute(Constants.PORTLET_ATTR_HTTP_REQUEST);
+        servletRequest.getSession().setAttribute("osivia.services.cgu.level", level);
+        
+        String redirectUrl = (String) servletRequest.getSession().getAttribute("osivia.services.cgu.pathToRedirect");
+        if( redirectUrl != null)    {
+            String adaptedUrl = portalUrlFactory.adaptPortalUrlToNavigation(new PortalControllerContext(getPortletContext(), request, response), redirectUrl);
+            response.sendRedirect(adaptedUrl);
+        }
+    }
+    
+    
+    @ActionMapping(params = "action=rejectCgu")
+    public void rejectCgu(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
+            final ActionResponse response, final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
+
+        final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
+
+        int level = 0;
+        nuxeoController.executeNuxeoCommand(new UpdateProfileCommand(request.getUserPrincipal().getName(), level));
     }
 
 
