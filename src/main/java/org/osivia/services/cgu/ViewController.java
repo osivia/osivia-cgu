@@ -102,10 +102,12 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
         HttpServletRequest servletRequest = (HttpServletRequest) request.getAttribute(Constants.PORTLET_ATTR_HTTP_REQUEST);
         servletRequest.getSession().setAttribute("osivia.services.cgu.level", level);
         
+
+        // Get redirect url from session
         String redirectUrl = (String) servletRequest.getSession().getAttribute("osivia.services.cgu.pathToRedirect");
         if( redirectUrl != null)    {
-            String adaptedUrl = portalUrlFactory.adaptPortalUrlToNavigation(new PortalControllerContext(getPortletContext(), request, response), redirectUrl);
-            response.sendRedirect(adaptedUrl);
+
+            response.sendRedirect(redirectUrl);
         }
     }
     

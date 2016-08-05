@@ -6,7 +6,7 @@
 	<groupId>org.osivia.services.cgu</groupId>
 	<artifactId>osivia-services-cgu-portail</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>OSIVIA - CGU</name>
 
 	<properties>
