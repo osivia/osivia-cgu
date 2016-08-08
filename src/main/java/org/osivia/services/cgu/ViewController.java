@@ -1,5 +1,7 @@
 package org.osivia.services.cgu;
 
+import java.net.URLEncoder;
+
 import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -11,6 +13,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+
 
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.Constants;
@@ -102,12 +105,17 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
         HttpServletRequest servletRequest = (HttpServletRequest) request.getAttribute(Constants.PORTLET_ATTR_HTTP_REQUEST);
         servletRequest.getSession().setAttribute("osivia.services.cgu.level", level);
         
+        PortalControllerContext portalControllerContext = new PortalControllerContext( getPortletContext(), request, response);
 
+         
+        
         // Get redirect url from session
         String redirectUrl = (String) servletRequest.getSession().getAttribute("osivia.services.cgu.pathToRedirect");
+        
+        
         if( redirectUrl != null)    {
-
-            response.sendRedirect(redirectUrl);
+            String closeURL = portalUrlFactory.getDestroyCurrentPageUrl(portalControllerContext, redirectUrl);
+            response.sendRedirect(closeURL);
         }
     }
     

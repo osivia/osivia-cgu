@@ -10,7 +10,7 @@
 	<name>OSIVIA - CGU</name>
 
 	<properties>
-        <toutatice.version>4.0.12</toutatice.version>
+        <toutatice.version>4.0.22-SNAPSHOT</toutatice.version>
         <directory.version>4.4.0-SNAPSHOT</directory.version>
     </properties>
 
