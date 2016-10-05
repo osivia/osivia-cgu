@@ -1,20 +1,17 @@
 package org.osivia.services.cgu;
 
-import java.net.URLEncoder;
-
 import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletContext;
-import javax.portlet.PortletMode;
+import javax.portlet.PortletException;
 import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
-
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.context.PortalControllerContext;
@@ -29,57 +26,89 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.context.PortletConfigAware;
 import org.springframework.web.portlet.context.PortletContextAware;
 
 import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
+import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
 
+/**
+ * CGU portlet controller.
+ * 
+ * @see CMSPortlet
+ * @see PortletConfigAware
+ * @see PortletContextAware
+ */
 @Controller
 @RequestMapping("VIEW")
-public class ViewController extends CMSPortlet implements PortletContextAware, PortletConfigAware {
+public class ViewController extends CMSPortlet implements PortletConfigAware, PortletContextAware {
 
-
-    private PortletContext portletContext;
+    /** Portlet config. */
     private PortletConfig portletConfig;
+    /** Portlet context. */
+    private PortletContext portletContext;
 
 
     /** Portal URL factory. */
-    private IPortalUrlFactory portalUrlFactory;
+    private final IPortalUrlFactory portalUrlFactory;
 
 
+    /**
+     * Constructor.
+     */
+    public ViewController() {
+        super();
 
-   
-    
-    
-    @PostConstruct
-    public void initNuxeoService() throws Exception {
-        super.init();
-        if ((this.portletContext != null) && (this.portletContext.getAttribute("nuxeoService") == null)) {
-
-            this.init(this.portletConfig);
-        }
-        
         // Portal URL factory
         this.portalUrlFactory = Locator.findMBean(IPortalUrlFactory.class, IPortalUrlFactory.MBEAN_NAME);
     }
 
-    @RequestMapping
-    public String showView(final ModelMap model, final RenderRequest request, final RenderResponse response, final PortletSession session) {
 
-        final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
-        final PortalWindow window = WindowFactory.getWindow(request);
+    /**
+     * Post-construct.
+     *
+     * @throws PortletException
+     */
+    @PostConstruct
+    public void postConstruct() throws PortletException {
+        super.init(this.portletConfig);
+    }
+   
 
+    /**
+     * View render mapping.
+     * 
+     * @param request render request
+     * @param response render response
+     * @return view path
+     */
+    @RenderMapping
+    public String view(RenderRequest request, RenderResponse response) {
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(request, response, this.portletContext);
+        // Portal window
+        PortalWindow window = WindowFactory.getWindow(request);
 
-        String cguPath = window.getProperty("osivia.services.cgu.path");
+        // CGU path
+        String path = window.getProperty("osivia.services.cgu.path");
 
-        if (cguPath != null) {
-            final Document document = nuxeoController.fetchDocument(cguPath);
-            nuxeoController.setCurrentDoc(document);
-            final String note = nuxeoController.transformHTMLContent((String) document.getProperties().get("note:note"));
+        if (StringUtils.isNotEmpty(path)) {
+            if (!path.startsWith("/")) {
+                // WebId
+                path = NuxeoController.webIdToFetchPath(path);
+            }
+
+            // Nuxeo document context
+            NuxeoDocumentContext documentContext = nuxeoController.getDocumentContext(path);
+            // Nuxeo document
+            Document document = documentContext.getDoc();
+
+            // Note content
+            String note = nuxeoController.transformHTMLContent(document.getString("note:note"));
             request.setAttribute("cgus", note);
         }
-
 
         return "view";
     }
@@ -131,16 +160,22 @@ public class ViewController extends CMSPortlet implements PortletContextAware, P
     }
 
 
-    @Override
-    public void setPortletContext(PortletContext ctx) {
-        this.portletContext = ctx;
-
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setPortletConfig(PortletConfig portletConfig) {
         this.portletConfig = portletConfig;
 
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPortletContext(PortletContext portletContext) {
+        this.portletContext = portletContext;
     }
 
 }
