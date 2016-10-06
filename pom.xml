@@ -10,8 +10,8 @@
 	<name>OSIVIA - CGU</name>
 
 	<properties>
-        <toutatice.version>4.0.22-RC4</toutatice.version>
-        <directory.version>4.4.0-RC5</directory.version>
+        <toutatice.version>4.4.0-RC5</toutatice.version>
+        <directory.version>4.4.0-RC9</directory.version>
     </properties>
 
 
