@@ -21,16 +21,12 @@
 
 
 	<div class="container-fluid">
-		<div class="row">
-			<h2>Conditions Générales d'Utilisation</h2>
-		</div>
+
 		<div class="row">
 			<form:form method="post" modelAttribute="formulaire"
 				action="${validateCgu}">
 
-
 				<div class="col-md-12">
-					<h3>Prenez connaissance des Conditions Générales d'Utilisation</h3>
 					<div class="row">
 
 						<div class="col-md-12"
@@ -47,14 +43,7 @@
 									Conditions Générales d'Utilisation</span>
 							</a>
 						</div>
-<%--
-						<div class="col-md-6">
-							<a class="btn" href="${rejectCgu}"> <i
-								class="glyphicons halflings ok"></i> <span>Je refuse les
-									Conditions Générales d'Utilisation</span>
-							</a>
-						</div>
---%>
+
 					</div>
 
 				</div>
