@@ -4,7 +4,7 @@
     <groupId>org.osivia.services.cgu</groupId>
     <artifactId>osivia-services-cgu-portail</artifactId>
     <packaging>war</packaging>
-    <version>4.4</version>
+    <version>4.4-SNAPSHOT</version>
     
     <name>OSIVIA - CGU</name>
 
@@ -112,7 +112,7 @@
 
 
     <scm>
-        <developerConnection>scm:svn:http://www.osivia.org/repos/osivia-services/cgu/tags/4.4</developerConnection>
+        <developerConnection>scm:svn:http://www.osivia.org/repos/osivia-services/cgu/trunk</developerConnection>
     </scm>
 
 
