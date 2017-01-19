@@ -42,7 +42,7 @@ public class UpdateProfileCommand implements INuxeoCommand {
 
         Map<String, String> propertiesToUpdate = new HashMap<String, String>();
 
-        propertiesToUpdate.put("ttc_userprofile:terms_of_use_agreement", Integer.toString(levelAgreement));
+        propertiesToUpdate.put("userprofile:terms_of_use_agreement", Integer.toString(levelAgreement));
 
         OperationRequest majFicheProfil = automationSession.newRequest("Document.Update").setInput(doc);
 

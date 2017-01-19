@@ -22,15 +22,11 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<h2>Conditions Générales d'Utilisation</h2>
-		</div>
-		<div class="row">
 			<form:form method="post" modelAttribute="formulaire"
 				action="${validateCgu}">
 
 
 				<div class="col-md-12">
-					<h3>Prenez connaissance des Conditions Générales d'Utilisation</h3>
 					<div class="row">
 
 						<div class="col-md-12"
