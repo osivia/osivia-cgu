@@ -6,7 +6,7 @@
 	<groupId>org.osivia.services.cgu</groupId>
 	<artifactId>osivia-services-cgu-portail</artifactId>
 	<packaging>war</packaging>
-	<version>4.0.0-RC3</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<name>OSIVIA - CGU</name>
 
 	<properties>
@@ -94,7 +94,7 @@
 	</build>
 
    <scm>
-        <developerConnection>scm:svn:http://www.osivia.org/repos/osivia-services/cgu/tags/4.0.0-RC3</developerConnection>
+        <developerConnection>scm:svn:http://www.osivia.org/repos/osivia-services/cgu/branches/4.0</developerConnection>
     </scm>
 
 
