@@ -4,14 +4,14 @@
     <groupId>org.osivia.services.cgu</groupId>
     <artifactId>osivia-services-cgu-portail</artifactId>
     <packaging>war</packaging>
-    <version>4.4-SNAPSHOT</version>
+    <version>4.6-SNAPSHOT</version>
     
     <name>OSIVIA - CGU</name>
 
 
     <properties>
-        <toutatice.version>4.4-SNAPSHOT</toutatice.version>
-        <directory.version>4.4-SNAPSHOT</directory.version>
+        <toutatice.version>4.6-SNAPSHOT</toutatice.version>
+        <directory.version>4.6-SNAPSHOT</directory.version>
     </properties>
 
 
