@@ -103,7 +103,7 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
             // Nuxeo document context
             NuxeoDocumentContext documentContext = nuxeoController.getDocumentContext(path);
             // Nuxeo document
-            Document document = documentContext.getDoc();
+            Document document = documentContext.getDocument();
 
             // Note content
             String note = nuxeoController.transformHTMLContent(document.getString("note:note"));
