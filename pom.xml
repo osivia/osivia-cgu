@@ -10,8 +10,8 @@
 
 
     <properties>
-        <toutatice.version>4.6-RC6</toutatice.version>
-        <directory.version>4.6-RC2</directory.version>
+        <toutatice.version>4.6</toutatice.version>
+        <directory.version>4.6</directory.version>
     </properties>
 
 
