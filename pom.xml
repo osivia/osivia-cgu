@@ -4,14 +4,14 @@
     <groupId>org.osivia.services.cgu</groupId>
     <artifactId>osivia-services-cgu-portail</artifactId>
     <packaging>war</packaging>
-    <version>4.6-SNAPSHOT</version>
+    <version>4.7-SNAPSHOT</version>
     
     <name>OSIVIA - CGU</name>
 
 
     <properties>
-        <toutatice.version>4.6</toutatice.version>
-        <directory.version>4.6</directory.version>
+        <toutatice.version>4.7-SNAPSHOT</toutatice.version>
+        <directory.version>4.7-SNAPSHOT</directory.version>
     </properties>
 
 
@@ -132,5 +132,20 @@
         <name>OSIVIA</name>
         <url>http://www.osivia.org/</url>
     </organization>
+    
+    <profiles>
+    	<profile>
+    		<id>ci</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<distributionManagement>
+    			<snapshotRepository>
+            		<id>galactica-ci-snapshots</id>
+            		<url>http://nexus:8081/repository/ci-snapshots</url>
+        		</snapshotRepository>
+    		</distributionManagement>
+    	</profile>
+    </profiles>    
 
 </project>
