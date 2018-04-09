@@ -39,7 +39,7 @@
 
 						<div class="col-md-6">
 							<a class="btn btn-primary" href="${validateCgu}"> <i
-								class="glyphicons halflings ok"></i> <span>J'accepte les
+								class="halflings halflings-ok"></i> <span>J'accepte les
 									Conditions Générales d'Utilisation</span>
 							</a>
 						</div>
