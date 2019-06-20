@@ -17,38 +17,19 @@
 	<portlet:param name="action" value="rejectCgu" />
 </portlet:actionURL>
 
-<div>
+<form:form method="post" modelAttribute="formulaire"
+	action="${validateCgu}">
+
+	<div style="height: 400px;" class="mb-3 p-3 overflow-auto border rounded">
+		${cgus}</div>
 
 
-	<div class="container-fluid">
-
-		<div class="row">
-			<form:form method="post" modelAttribute="formulaire"
-				action="${validateCgu}">
-
-				<div class="col-md-12">
-					<div class="row">
-
-						<div class="col-md-12"
-							style="margin-bottom: 10px; height: 400px; overflow-x: hidden; overflow-y: scroll; border: 1px solid #bbbbbb;">
-							${cgus}</div>
-
-					</div>
-
-					<div class="row">
-
-						<div class="col-md-6">
-							<a class="btn btn-primary" href="${validateCgu}"> <i
-								class="halflings halflings-ok"></i> <span>J'accepte les
-									Conditions Générales d'Utilisation</span>
-							</a>
-						</div>
-
-					</div>
-
-				</div>
-			</form:form>
-		</div>
-
-
+	<div>
+		<a class="btn btn-primary" href="${validateCgu}"> <i
+			class="halflings halflings-ok"></i> <span>J'accepte les
+				Conditions Générales d'Utilisation</span>
+		</a>
 	</div>
+
+</form:form>
+
