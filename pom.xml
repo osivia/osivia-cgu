@@ -10,7 +10,7 @@
 
 
     <properties>
-        <toutatice.version>4.9-ALPHA-2</toutatice.version>
+        <toutatice.version>4.9</toutatice.version>
         <directory.version>4.7.2</directory.version>
     </properties>
 
