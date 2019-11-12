@@ -10,11 +10,16 @@ import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.automation.client.model.Document;
+import org.osivia.directory.v2.model.preferences.UserPreferences;
+import org.osivia.directory.v2.service.preferences.UserPreferencesService;
 import org.osivia.portal.api.Constants;
+import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.context.PortalControllerContext;
+import org.osivia.portal.api.directory.v2.DirServiceFactory;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.api.windows.PortalWindow;
@@ -33,6 +38,8 @@ import org.springframework.web.portlet.context.PortletContextAware;
 import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
+
+import java.io.IOException;
 
 /**
  * CGU portlet controller.
@@ -53,6 +60,8 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 
     /** Portal URL factory. */
     private final IPortalUrlFactory portalUrlFactory;
+    /** User preferences service. */
+    private final UserPreferencesService userPreferencesService;
 
 
     /**
@@ -63,6 +72,8 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 
         // Portal URL factory
         this.portalUrlFactory = Locator.findMBean(IPortalUrlFactory.class, IPortalUrlFactory.MBEAN_NAME);
+        // User preferences service
+        this.userPreferencesService = DirServiceFactory.getService(UserPreferencesService.class);
     }
 
 
@@ -115,48 +126,50 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 
 
     @ActionMapping(params = "action=validateCgu")
-    public void validateCgu(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
-            final ActionResponse response, final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
+    public void validateCgu(ActionRequest request, ActionResponse response, @ModelAttribute FormAdmin formulaire) throws PortletException, IOException {
+        // Portal controller context
+        PortalControllerContext portalControllerContext = new PortalControllerContext(this.getPortletContext(), request, response);
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+        
+        // Window
+        PortalWindow window = WindowFactory.getWindow(request);
 
-        final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
-        final PortalWindow window = WindowFactory.getWindow(request);
+        // Servlet request
+        HttpServletRequest httpServletRequest = portalControllerContext.getHttpServletRequest();
+        // HTTP session
+        HttpSession session = httpServletRequest.getSession();
 
-        int level = 1;
-        String cguLevel = window.getProperty("osivia.services.cgu.level");
+
+        // Terms of service
+        String termsOfService = window.getProperty("osivia.services.cgu.level");
+        
+        // User preferences
+        UserPreferences userPreferences;
         try {
-            level = Integer.parseInt(cguLevel);
-        } catch(Exception e)    {
+            userPreferences = this.userPreferencesService.getUserPreferences(portalControllerContext);
+        } catch (PortalException e) {
+            throw new PortletException(e);
         }
-        nuxeoController.executeNuxeoCommand(new UpdateProfileCommand(request.getUserPrincipal().getName(), level));
         
+        // Update user preferences
+        userPreferences.setTermsOfService(termsOfService);
+        userPreferences.setUpdated(true);
         
-         // Level Marked as checked
-        HttpServletRequest servletRequest = (HttpServletRequest) request.getAttribute(Constants.PORTLET_ATTR_HTTP_REQUEST);
-        servletRequest.getSession().setAttribute("osivia.services.cgu.level", level);
-        
-        PortalControllerContext portalControllerContext = new PortalControllerContext( getPortletContext(), request, response);
-
-         
         
         // Get redirect url from session
-        String redirectUrl = (String) servletRequest.getSession().getAttribute("osivia.services.cgu.pathToRedirect");
-        
-        
+        String redirectUrl = (String) session.getAttribute("osivia.services.cgu.pathToRedirect");
+
         if( redirectUrl != null)    {
-            String closeURL = portalUrlFactory.getDestroyCurrentPageUrl(portalControllerContext, redirectUrl);
+            // Close URL
+            String closeURL;
+            try {
+                closeURL = portalUrlFactory.getDestroyCurrentPageUrl(portalControllerContext, redirectUrl);
+            } catch (PortalException e) {
+                throw new PortletException(e);
+            }
             response.sendRedirect(closeURL);
         }
-    }
-    
-    
-    @ActionMapping(params = "action=rejectCgu")
-    public void rejectCgu(@ModelAttribute final FormAdmin formulaire, final BindingResult result, final ActionRequest request,
-            final ActionResponse response, final ModelMap modelMap, final PortletSession session, final ModelMap model) throws Exception {
-
-        final NuxeoController nuxeoController = new NuxeoController(request, response, getPortletContext());
-
-        int level = 0;
-        nuxeoController.executeNuxeoCommand(new UpdateProfileCommand(request.getUserPrincipal().getName(), level));
     }
 
 

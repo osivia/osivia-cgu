@@ -10,8 +10,8 @@
 
 
     <properties>
-        <toutatice.version>4.9</toutatice.version>
-        <directory.version>4.7.2</directory.version>
+        <toutatice.version>4.9-SNAPSHOT</toutatice.version>
+        <directory.version>4.9-SNAPSHOT</directory.version>
     </properties>
 
 
@@ -29,6 +29,14 @@
             <artifactId>toutatice-portail-cms-nuxeo-dependencies-test</artifactId>
             <version>${toutatice.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Directory -->
+        <dependency>
+            <groupId>org.osivia.services.directory.socle</groupId>
+            <artifactId>osivia-services-directory-socle-interfaces</artifactId>
+            <version>${directory.version}</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
