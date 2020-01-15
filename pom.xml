@@ -10,8 +10,8 @@
 
 
     <properties>
-        <toutatice.version>4.9-SNAPSHOT</toutatice.version>
-        <directory.version>4.9-SNAPSHOT</directory.version>
+        <toutatice.version>4.9.1</toutatice.version>
+        <directory.version>4.9.1</directory.version>
     </properties>
 
 
