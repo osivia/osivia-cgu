@@ -4,7 +4,7 @@
     <groupId>org.osivia.services.cgu</groupId>
     <artifactId>osivia-services-cgu-portail</artifactId>
     <packaging>war</packaging>
-    <version>4.7.1</version>
+    <version>4.7-SNAPSHOT</version>
     
     <name>OSIVIA - CGU</name>
 
